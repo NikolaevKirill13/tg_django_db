@@ -1,4 +1,2 @@
 bot/venv/
-bot/config/config.ini
 web/venv/
-web/settings.py
