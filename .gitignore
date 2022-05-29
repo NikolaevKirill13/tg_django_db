@@ -1,2 +1,4 @@
 bot/venv/
 web/venv/
+.vscode
+__pycache__
