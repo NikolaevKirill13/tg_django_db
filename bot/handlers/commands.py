@@ -24,21 +24,24 @@ async def start_command(message: types.Message):
     else: return
 
 
-@dispatcher.message_handler(commands="mute", commands_prefix="/")
-async def mute_command(message: types.Message):
-    if not message.reply_to_message:
-        reply = await message.reply(text="Нужен реплай на сообщение пользователя!")
-        await asyncio.sleep(10)
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=reply.message_id)
-    else:
-        warns = check_warns(message.reply_to_message.from_user.id)
-        mute_time = warns * 10 + (warns - 1) * 10
-        reply = await message.reply_poll(question=f"Замутить этого пользователя: id:{message.reply_to_message.from_user.id} Имя:{message.reply_to_message.from_user.first_name}?",
-        is_anonymous=False, open_period=60, reply_to_message_id=message.reply_to_message.message_id, allow_sending_without_reply=True)
+@dp.message_handler(commands= ["mute"], commands_prefix="/")
+async def mute(message: types.Message):
+	if message.reply_to_message is not None:
+		await message.bot.send_poll(chat_id=message.chat.id, question=f"Выдать мут пользователю id: {message.reply_to_message.from_user.id}", 
+		options =['+', '-'], reply_to_message_id=message.reply_to_message.message_id, is_anonymous=False)
+	else:
+		message.reply("Нужен реплай на сообщение!")
 
 
+# @dp.poll_handler()
+# async def poll_handler(poll:types.Poll):
+# 	print(poll)
+# 	if poll["options"]["voter_count"] == 10:
+# 		time = 
+# 		restrict_id=re.findall("(\d+)",poll["question"])
+# 		await bot.stop_poll(chat_id=chat_id,message_id=message_id)
+# 		await bot.restrict_chat_member(chat_id=chat_id, user_id=restrict_id, permissions =types.ChatPermissions(False), until_date = time)
 
-@dispatcher.poll_handler()
 
 
 @dispatcher.message_handler(commands="fao", commands_prefix="/")
