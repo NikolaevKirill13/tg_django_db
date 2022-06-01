@@ -24,7 +24,7 @@ async def start_command(message: types.Message):
     else: return
 
 
-@dp.message_handler(commands= ["mute"], commands_prefix="/")
+@dispatcher.message_handler(commands= ["mute"], commands_prefix="/")
 async def mute(message: types.Message):
 	if message.reply_to_message is not None:
 		await message.bot.send_poll(chat_id=message.chat.id, question=f"Выдать мут пользователю id: {message.reply_to_message.from_user.id}", 
