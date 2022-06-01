@@ -7,7 +7,6 @@ from config.config import TOKEN
 
 MODE = sys.argv[1]
 
-
 if MODE == 'prod':
     logging.basicConfig(level=logging.INFO)
 elif MODE == 'dev':

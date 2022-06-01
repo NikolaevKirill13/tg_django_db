@@ -1,4 +1,4 @@
-from aiogram import executor, exceptions
+from aiogram import executor
 from dispatcher import dispatcher
 import handlers
 
