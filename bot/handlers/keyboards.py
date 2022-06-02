@@ -1,5 +1,3 @@
-from tkinter import Button
-from tkinter.messagebox import NO
 from aiogram.types import KeyboardButton, InlineKeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, ReplyKeyboardRemove
 #from web.database import Database
 
@@ -12,11 +10,12 @@ def fao_keyboard() -> InlineKeyboardMarkup:
         keyboard.add(button)
     return keyboard
 
-def mute_keyboard(count:int = None) -> InlineKeyboardMarkup: 
+def mute_keyboard(count:int = 0) -> InlineKeyboardMarkup: 
     keyboard = InlineKeyboardMarkup()
-    # if code is not None:
-    #     if code == "1":
-    #         keyboard.add(InlineKeyboardButton(text=f"За ", callback_data=="mute0"))
-    #     keyboard.add()
-    keyboard.add(InlineKeyboardButton(text = "0", callback_data="mute"))
+    keyboard.add(InlineKeyboardButton(text = f"{count}", callback_data=f"mute{count}"))
+    return keyboard
+
+def welcome_keyboard() -> InlineKeyboardMarkup:
+    keyboard = InlineKeyboardMarkup()
+    keyboard.add(InlineKeyboardButton(text = "Нажми на клавишу в течении 60 секунд.", callback_data=f"welcome"))
     return keyboard
