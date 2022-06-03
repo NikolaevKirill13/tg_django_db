@@ -1,1 +1,10 @@
-django
+asgiref==3.5.2
+certifi==2022.5.18.1
+chardet==4.0.0
+Django==4.0
+djangorestframework==3.12.4
+idna==2.10
+pytz==2022.1
+requests==2.25.1
+sqlparse==0.4.2
+urllib3==1.26.4
