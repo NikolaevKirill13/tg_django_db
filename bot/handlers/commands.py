@@ -56,9 +56,9 @@ async def voice_handler(message:types.Message):
         if not message.reply_to_message.voice:
             await message.reply("Нужно ответить на голосовое сообщение!")
             return
-        await message.reply("Начинаю распознавание...")
-        text = await voice.recognize_voice(await message.voice.get_file())
-        mes = await message.bot.edit_message_text(chat_id=message.chat.id, text=text,
+        mes = await message.reply("Начинаю распознавание...")
+        text = await voice.recognize_voice(await message.reply_to_message.voice.get_file())
+        await message.bot.edit_message_text(chat_id=message.chat.id, text=text,
         message_id=mes.message_id, parse_mode="HTML")
 
 
