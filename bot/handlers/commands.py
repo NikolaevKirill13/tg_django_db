@@ -1,8 +1,7 @@
 from aiogram import types
 
 from dispatcher import dispatcher, bot
-from handlers import keyboards, functions
-from handlers import voice # circular error import idk what is it
+from handlers import keyboards, functions, voice
 
 
 @dispatcher.message_handler(commands=["start"], commands_prefix="/")
