@@ -2,4 +2,8 @@ bot/venv/
 web/venv/
 .vscode
 __pycache__
+<<<<<<< HEAD
 ffmpeg.exe
+=======
+.idea
+>>>>>>> origin/NikolaevKirill13-first_api

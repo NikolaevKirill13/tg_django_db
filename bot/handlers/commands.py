@@ -36,7 +36,7 @@ async def mute(message: types.Message):
             can_send_polls = True, can_use_inline_bots = True, can_send_media_messages = True, 
             can_invite_users = True, can_add_web_page_previews = True, can_send_stickers = True, 
             can_send_animations = True) )
-        await message.reply("С пользователя {message.reply_to_message.from_user.id} сняты ограничения!")    
+        await message.reply(f"С пользователя {message.reply_to_message.from_user.id} сняты ограничения!")    
     else:
         await message.reply("Нужен реплай на сообщение!")
 
