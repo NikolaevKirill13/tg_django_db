@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework import generics
-from core.models import Faq, Block, Member
+from core.models import Faq, Block, User
 from . import serializers
 
 
@@ -12,7 +12,8 @@ def apiOverview(request):
     api_urls = {
         'faq': 'api/faq',
         'faq detail': 'api/faq/title',
-        'member list': 'api/member',
+        'member list': 'api/user',
+        'member detail': 'api/user/user_id',
         'block list': 'api/block',
         'block detail': 'api/block/user_id',
 
@@ -42,6 +43,12 @@ class BlockDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'user'
 
 
-class MemberList(generics.ListCreateAPIView):
-    queryset = Member.objects.all()
-    serializer_class = serializers.MemberSerializer
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserSerializer
+
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserSerializer
+    lookup_field = 'user_id_tg'
