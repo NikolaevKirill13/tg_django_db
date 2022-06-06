@@ -72,7 +72,7 @@ class Block(models.Model):
         return self.user
 
     def save(self, *args, **kwargs):
-        user = User.objects.get(username=self.user)
+        user = User.objects.get(user_id_tg=self.user)
         user.warn += 1
         user.save()
         if self.permanent:

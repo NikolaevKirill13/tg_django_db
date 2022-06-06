@@ -29,4 +29,5 @@ class BlockAdmin(admin.ModelAdmin):
     list_display = ('user', 'start_time', 'stop_time')
     list_filter = ('permanent',)
     fields = ('user', 'start_time', 'permanent')
-    form = BlockForm
+    #form = BlockForm
+
