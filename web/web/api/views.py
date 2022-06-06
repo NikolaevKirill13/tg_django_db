@@ -15,7 +15,7 @@ def apiOverview(request):
         'member list': 'api/member',
         'block list': 'api/block',
         'block detail': 'api/block/user_id',
-
+        'member detail': 'api/member/user_id',
     }
     return Response(api_urls)
 
@@ -39,9 +39,15 @@ class BlockList(generics.ListCreateAPIView):
 class BlockDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Block.objects.all()
     serializer_class = serializers.BlockSerializer
-    lookup_field = 'user'
+    lookup_field = 'user_id'
 
 
 class MemberList(generics.ListCreateAPIView):
     queryset = Member.objects.all()
     serializer_class = serializers.MemberSerializer
+
+
+class MemberDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Member.objects.all()
+    serializer_class = serializers.MemberSerializer
+    lookup_field = 'user_id'

@@ -6,7 +6,7 @@ from .models import *
 class BlockingInLine(admin.StackedInline):
     model = Block
     extra = 1
-    exclude = ('stop_time', )
+    exclude = ('warn', )
 
 
 @admin.register(Faq)
@@ -16,9 +16,9 @@ class FaqAdmin(admin.ModelAdmin):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'username', 'violation')
-    list_filter = ('violation',)
-    exclude = ('violation', )
+    list_display = ('user_id', 'username', 'full_name')
+    #list_filter = ('violation',)
+    exclude = ('full_name', )
 
 
 class BlockForm(forms.ModelForm):
@@ -27,7 +27,7 @@ class BlockForm(forms.ModelForm):
 
 @admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
-    list_display = ('user', 'start_time', 'stop_time')
-    list_filter = ('permanent',)
-    exclude = ('stop_time', )
+    list_display = ('user_id', 'warn')
+    list_filter = ('warn',)
+    exclude = ('warn', )
     form = BlockForm

@@ -16,15 +16,12 @@ class Migration(migrations.Migration):
             name='Block',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.CharField(max_length=128, verbose_name='Мембер')),
-                ('start_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Время начала')),
-                ('stop_time', models.DateTimeField(verbose_name='Время окончания')),
-                ('permanent', models.BooleanField(default=False, verbose_name='Бан перманентно')),
+                ('user_id', models.BigIntegerField(max_length=128, verbose_name='Мембер')),
+                ('warn', models.IntegerField(default=0, verbose_name='Бан перманентно')),
             ],
             options={
                 'verbose_name': 'Блокировка',
                 'verbose_name_plural': 'Блокировки',
-                'ordering': ['-start_time'],
             },
         ),
         migrations.CreateModel(
@@ -44,11 +41,11 @@ class Migration(migrations.Migration):
             name='Member',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user_id', models.CharField(max_length=128, unique=True, verbose_name='id')),
+                ('user_id', models.CharField(max_length=128, unique=True, verbose_name='user_id')),
+                ('first_name', models.CharField(blank=True, max_length=255, null=False, verbose_name='Имя')),
+                ('full_name', models.CharField(blank=True, max_length=255, null=False, verbose_name='Имя Фамилия')),
                 ('username', models.CharField(blank=True, max_length=128, null=True, verbose_name='Ник')),
-                ('name', models.CharField(blank=True, max_length=255, null=True, verbose_name='Имя')),
                 ('role', models.CharField(blank=True, max_length=128, null=True, verbose_name='Роль в канале')),
-                ('violation', models.IntegerField(default=0, verbose_name='Количество нарушений')),
             ],
             options={
                 'verbose_name': 'Мембер',

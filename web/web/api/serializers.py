@@ -11,10 +11,10 @@ class FaqSerializer(serializers.ModelSerializer):
 class BlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Block
-        fields = ('user', 'permanent')
+        fields = ('user_id', 'warn')
 
 
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ('user_id', 'username', 'name', 'role')
+        fields = ('user_id', 'full_name', 'first_name', 'username', 'role')
