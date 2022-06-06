@@ -21,6 +21,7 @@ class Faq(models.Model):
         ordering = ['title']
         verbose_name = 'Справка'
         verbose_name_plural = 'Справки'
+        unique_together = ['title', 'description' ]
 
     def __str__(self):
         return self.title

@@ -13,7 +13,7 @@ async def start_command(message: types.Message):
 
 
 @dispatcher.message_handler(commands= ["mute"], commands_prefix="/")
-async def mute(message: types.Message):
+async def mute_handler(message: types.Message):
     # if message.get_args() is not None:
     #     arg = message.get_args()
     #     time = functions.mute_time(message.reply_to_message.from_user.id)
@@ -26,7 +26,7 @@ async def mute(message: types.Message):
 
 
 @dispatcher.message_handler(commands= ["unmute"], commands_prefix="/")
-async def mute(message: types.Message):
+async def unmute_handler(message: types.Message):
     if message.reply_to_message is not None:
         user = await message.bot.get_chat_member(chat_id=message.chat.id, user_id=message.from_user.id)
         if user.status == "administrator" or user.status == "creator":
@@ -40,11 +40,11 @@ async def mute(message: types.Message):
         await message.reply("Нужен реплай на сообщение!")
 
 
-@dispatcher.message_handler(commands=["fao"], commands_prefix="/")
-async def fao_command(message: types.Message):
+@dispatcher.message_handler(commands=["faq"], commands_prefix="/")
+async def faq_handler(message: types.Message):
     if message.chat.type !="private":
         return
-    await message.bot.send_message(chat_id=message.chat.id, text="text", reply_markup=keyboards.fao_keyboard())
+    await message.bot.send_message(chat_id=message.chat.id, text="text", reply_markup=keyboards.faq_keyboard())
 
 
 @dispatcher.message_handler(commands= ["recognize"], commands_prefix="/")

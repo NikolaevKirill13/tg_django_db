@@ -1,12 +1,15 @@
 from aiogram.types import KeyboardButton, InlineKeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, ReplyKeyboardRemove
+from handlers import functions
 #from web.database import Database
 
 
-def fao_keyboard() -> InlineKeyboardMarkup: 
+def faq_keyboard() -> InlineKeyboardMarkup: 
     keyboard = InlineKeyboardMarkup()
-    fao = Database.Fao()
-    for i in range(0, len(fao)):
-        button = InlineKeyboardButton(text = fao.keys[i], callback_data=f"fao_btn{i}")
+    faq = functions.get_faq()
+    i = 0
+    for title in faq:
+        button = InlineKeyboardButton(text = title["title"], callback_data=f"fao_btn{i}")
+        i = i + 1
         keyboard.add(button)
     return keyboard
 

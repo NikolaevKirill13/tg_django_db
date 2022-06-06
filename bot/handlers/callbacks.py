@@ -1,7 +1,7 @@
 from aiogram import types
 
 from dispatcher import dispatcher, bot
-from handlers import keyboards
+from handlers import keyboards, functions
 
 from time import time
 
@@ -10,12 +10,11 @@ from time import time
 async def callback_fao(callback_query: types.CallbackQuery):
     code = callback_query.data[-1]
     if code.isdigit():
-        fao #= Database.Fao()#.get_fao()
-        await bot.answer_callback_query(callback_query.id)
-        text = fao.keys[int(code)]
+        fao = functions.get_faq()
+        text = fao[int(code)]["description"]
     else:
         text = "Error, i dont find this article!"
-    await callback_query.message.edit_text(callback_query.from_user.id, text = text, reply_markup='')
+    await callback_query.message.reply(text = text)
 
 
 @dispatcher.callback_query_handler(lambda c: c.data and c.data.startswith('mute'))
