@@ -11,7 +11,7 @@ class FaqSerializer(serializers.ModelSerializer):
 class BlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Block
-        fields = ('user', 'permanent')
+        fields = ('user', 'warn', 'permanent')
 
 
 class UserSerializer(serializers.ModelSerializer):

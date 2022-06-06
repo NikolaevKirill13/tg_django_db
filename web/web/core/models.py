@@ -62,6 +62,7 @@ class Block(models.Model):
     # будущем развитии
     stop_time = models.DateTimeField(verbose_name='Время окончания')
     permanent = models.BooleanField(verbose_name='Бан перманентно', default=False)
+    warn = models.PositiveIntegerField(verbose_name='', default=1)
 
     class Meta:
         ordering = ['-start_time']
@@ -75,6 +76,7 @@ class Block(models.Model):
         user = User.objects.get(user_id_tg=self.user)
         user.warn += 1
         user.save()
+        self.warn = user.warn
         if self.permanent:
             self.stop_time = datetime.datetime(9999, 12, 1, 12, 00, 00)
         else:
