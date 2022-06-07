@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Faq, Member, Block
+from core.models import Faq, User, Block
 
 
 class FaqSerializer(serializers.ModelSerializer):
@@ -11,10 +11,10 @@ class FaqSerializer(serializers.ModelSerializer):
 class BlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Block
-        fields = ('user_id', 'warn')
+        fields = ('user', 'warn', 'permanent')
 
 
-class MemberSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Member
-        fields = ('user_id', 'full_name', 'first_name', 'username', 'role')
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'user_id_tg', 'warn')

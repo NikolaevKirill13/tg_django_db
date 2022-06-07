@@ -1,10 +1,31 @@
 from django.db import models
 from django.utils import timezone
-
+from django.conf import settings
+from django.contrib.auth.models import UserManager, AbstractUser
+import datetime
 
 class ObjectManager(models.Manager):
     def get_queryset(self):
         return super(ObjectManager, self).get_queryset().all()
+
+
+class User(AbstractUser):
+
+    """Модель пользователя"""
+
+    objects = UserManager()
+
+    user_id_tg = models.IntegerField(verbose_name='Id пользователя в telegram', unique=True, null=True, blank=True)
+    birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
+    warn = models.IntegerField(verbose_name='', default=0)
+
+    class Meta:
+        ordering = ['username']
+        verbose_name = 'Мембер'
+        verbose_name_plural = 'Мемберы'
+
+    def __str__(self):
+        return self.username
 
 
 class Faq(models.Model):
@@ -13,7 +34,7 @@ class Faq(models.Model):
 
     objects = ObjectManager()
 
-    title = models.CharField(verbose_name='Тема', max_length=128)
+    title = models.CharField(verbose_name='Тема', max_length=128, unique=True)
     description = models.TextField(verbose_name='Содержание', max_length=255)
 
     class Meta:
@@ -23,35 +44,6 @@ class Faq(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Member(models.Model):
-    """
-    Модель пользователя канала
-    Переопределенный метод save() проверяет содержимое username и, при пустом значении, заполняет его
-    из поля user_id
-    """
-
-    objects = ObjectManager()
-
-    user_id = models.IntegerField(verbose_name='user_id', max_length=128, unique=True, null=False)
-    username = models.CharField(verbose_name='Ник', max_length=128, null=True, blank=True)
-    first_name = models.CharField(verbose_name='Имя', max_length=255, null=True, blank=True)
-    full_name = models.CharField(verbose_name='Фамилия и имя', max_length=255, null=True, blank=True)
-    role = models.CharField(verbose_name='Роль в канале', max_length=128, null=True, blank=True)
-
-    class Meta:
-        ordering = ['user_id', 'username', 'full_name']
-        verbose_name = 'Мембер'
-        verbose_name_plural = 'Мемберы'
-
-    def __str__(self):
-        return f'{self.user_id}'
-
-    def save(self, *args, **kwargs):
-        if self.username is None:  # and self.name is None:
-            self.username = self.user_id
-        super(Member, self).save(*args, **kwargs)
 
 
 class Block(models.Model):
@@ -64,8 +56,12 @@ class Block(models.Model):
 
     objects = ObjectManager()
 
-    user_id = models.BigIntegerField(verbose_name='Мембер', unique=True)
-    warn = models.PositiveIntegerField(verbose_name='Нарушений', default=0)
+    user = models.CharField(verbose_name='Мембер', max_length=128)
+    start_time = models.DateTimeField(verbose_name='Время начала', default=timezone.now)  # время понадобится в
+    # будущем развитии
+    stop_time = models.DateTimeField(verbose_name='Время окончания')
+    permanent = models.BooleanField(verbose_name='Бан перманентно', default=False)
+    warn = models.PositiveIntegerField(verbose_name='', default=1)
 
     class Meta:
         verbose_name = 'Блокировка'
@@ -74,8 +70,14 @@ class Block(models.Model):
     def __str__(self):
         return self.user_id
 
-    # def save(self, *args, **kwargs):
-    #     u = Member.objects.get(user_id=self.user_id)
-    #     u.save()
-    #     super(Block, self).save(*args, **kwargs)
-    # Не уверен что это нужно тк у нас в таблице block будут и user_id и количество нарушений
+    def save(self, *args, **kwargs):
+        user = User.objects.get(user_id_tg=self.user)
+        user.warn += 1
+        user.save()
+        self.warn = user.warn
+        if self.permanent:
+            self.stop_time = datetime.datetime(9999, 12, 1, 12, 00, 00)
+        else:
+            block_time = user.warn * 10 + (user.warn - 1) * 10
+            self.stop_time = timezone.now() + timezone.timedelta(minutes=block_time)
+        super(Block, self).save(*args, **kwargs)

@@ -3,6 +3,12 @@ from django import forms
 from .models import *
 
 
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'user_id_tg', 'warn')
+    exclude = ('warn',)
+
+
 class BlockingInLine(admin.StackedInline):
     model = Block
     extra = 1
@@ -14,20 +20,14 @@ class FaqAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')
 
 
-@admin.register(Member)
-class MemberAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'username', 'full_name')
-    #list_filter = ('violation',)
-    exclude = ('full_name', )
-
-
 class BlockForm(forms.ModelForm):
-    user = forms.ModelChoiceField(queryset=Member.objects.all(), label='Мембер', widget=forms.Select)
+    user = forms.ModelChoiceField(queryset=User.objects.all(), label='Мембер', widget=forms.Select)
 
 
 @admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'warn')
-    list_filter = ('warn',)
-    exclude = ('warn', )
-    form = BlockForm
+    list_display = ('user', 'start_time', 'stop_time')
+    list_filter = ('permanent',)
+    fields = ('user', 'start_time', 'permanent')
+    #form = BlockForm
+
