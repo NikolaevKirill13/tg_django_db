@@ -107,9 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -127,3 +127,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
+
+TELEGRAM_BOT_NAME = 'Chat_admin_bot'
+
+TELEGRAM_BOT_TOKEN = '5207576394:AAHMZXTXbDEXt4ytIULqQ1mI8VUnCtN_Aw4'
+
+TELEGRAM_LOGIN_REDIRECT_URL = ''
