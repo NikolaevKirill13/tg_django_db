@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^ne#gs=cjv-ku+%2-%-1vvon)u4zx)zio#4s6o78@2se6i=-vy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['5a96-94-25-229-230.eu.ngrok.io', '127.0.0.1']
 
 
 # Application definition
@@ -128,8 +128,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
 
-TELEGRAM_BOT_NAME = 'Chat_admin_bot'
+TELEGRAM_BOT_NAME = 'Login_Site_Bot'
 
-TELEGRAM_BOT_TOKEN = '5207576394:AAHMZXTXbDEXt4ytIULqQ1mI8VUnCtN_Aw4'
+TELEGRAM_BOT_TOKEN = '5484809390:AAF8P5xNB8YuD6VGXBSmrZObMfinYb9qJRs'
 
-TELEGRAM_LOGIN_REDIRECT_URL = '/'
+TELEGRAM_LOGIN_REDIRECT_URL = '/admin'

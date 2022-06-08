@@ -7,7 +7,15 @@
 <body>
 <h5>Логинимся через телеграмм</h5><hr>
 {% autoescape off %}
-{{ tg_login_widget }}
+{{ telegram_login_widget }}
 {% endautoescape %}
 </body>
+
+<script type="text/javascript">
+    function onTelegramAuth(user) {
+        alert('Logged in as ' + user.first_name + ' ' + user.last_name + '!');
+        alert(user);
+    }
+</script>
+
 </html>
