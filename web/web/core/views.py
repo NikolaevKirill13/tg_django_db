@@ -12,6 +12,6 @@ telegram_login_widget = create_redirect_login_widget(redirect_url, bot_name, siz
 
 
 def telegram_login(request):
-    tg_login_widget = create_redirect_login_widget(bot_name, size=MEDIUM)
+    tg_login_widget = create_redirect_login_widget(redirect_url=redirect_url, bot_name=bot_name, size=MEDIUM)
     context = {'tg_login_widget': tg_login_widget}
     return render(request, 'tg_login.html', context)
