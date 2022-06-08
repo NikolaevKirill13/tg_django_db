@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^ne#gs=cjv-ku+%2-%-1vvon)u4zx)zio#4s6o78@2se6i=-vy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['5a96-94-25-229-230.eu.ngrok.io', '127.0.0.1']
+ALLOWED_HOSTS = ['5a96-94-25-229-230.eu.ngrok.io', '127.0.0.1:8000']
 
 
 # Application definition
@@ -132,4 +132,4 @@ TELEGRAM_BOT_NAME = 'Login_Site_Bot'
 
 TELEGRAM_BOT_TOKEN = '5484809390:AAF8P5xNB8YuD6VGXBSmrZObMfinYb9qJRs'
 
-TELEGRAM_LOGIN_REDIRECT_URL = '/admin'
+TELEGRAM_LOGIN_REDIRECT_URL = 'https://5a96-94-25-229-230.eu.ngrok.io/'
