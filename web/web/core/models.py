@@ -1,7 +1,6 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from django.conf import settings
 from django.contrib.auth.models import UserManager, AbstractUser
 
 
@@ -58,11 +57,11 @@ class Block(models.Model):
     objects = ObjectManager()
 
     user = models.CharField(verbose_name='Мембер', max_length=128)
-    start_time = models.DateTimeField(verbose_name='Время начала', default=timezone.now)  # время понадобится в
+    start_time = models.DateTimeField(verbose_name='Время начала', default=timezone.now, null=True, blank=True)  # время понадобится в
     # будущем развитии
-    stop_time = models.DateTimeField(verbose_name='Время окончания')
-    permanent = models.BooleanField(verbose_name='Бан перманентно', default=False)
-    warn = models.PositiveIntegerField(verbose_name='', default=1)
+    stop_time = models.DateTimeField(verbose_name='Время окончания', null=True, blank=True)
+    permanent = models.BooleanField(verbose_name='Бан перманентно', default=False, null=True, blank=True)
+    warn = models.IntegerField(verbose_name='Нарушение', default=1, null=True, blank=True)
 
     class Meta:
         ordering = ['-start_time']

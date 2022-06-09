@@ -3,17 +3,22 @@ from rest_framework.response import Response
 from rest_framework import generics
 from core.models import Faq, Block, User
 from . import serializers
+from rest_framework.views import APIView
+from api.serializers import UserWrite, BlockWrite
+from rest_framework import status
+
 
 
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'faq': 'api/faq',
-        'faq detail': 'api/faq/title',
-        'member list': 'api/user',
-        'member detail': 'api/user/user_id',
-        'block list': 'api/block',
-        'block detail': 'api/block/user_id',
+        'faq': 'api/faq - просмотр всех тем справки, добавление справки',
+        'faq detail': 'api/faq/title - просмотр и редактирование справки',
+        'member list': 'api/user - просмотр всех юзеров, добавление и редактирование юзеров'
+                       'обязательные поля: username и user_id_tg',
+        'member detail': 'api/user/user_id - просмотр и редактирование юзера',
+        'block list': 'api/block - просмотр списка заблокированных юзеров',
+        'block detail': 'api/block/user_id - блокирование юзеров, обязательное поле: user',
     }
     return Response(api_urls)
 
@@ -29,23 +34,43 @@ class FaqDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'title'
 
 
-class BlockList(generics.ListCreateAPIView):
-    queryset = Block.objects.all()
-    serializer_class = serializers.BlockSerializer
+class BlockWriteList(APIView):
+    def get(self, request):
+        queryset = Block.objects.all()
+        block_list = BlockWrite(queryset, many=True)
+        return Response(block_list.data)
+
+    def post(self, request):
+        serializer = BlockWrite(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class BlockDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Block.objects.all()
-    serializer_class = serializers.BlockSerializer
-    lookup_field = 'user'
+class BlockWriteDetail(APIView):
+    def get(self, request, user):
+        queryset = Block.objects.get(user=user)
+        block = BlockWrite(queryset)
+        return Response(block.data, status=status.HTTP_200_OK)
 
 
-class UserList(generics.ListCreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
+class UserWriteList(APIView):
+    def get(self, request):
+        queryset = User.objects.all()
+        serializer_for_queryset = UserWrite(queryset, many=True)
+        return Response(serializer_for_queryset.data)
+
+    def post(self, request):
+        serializer = UserWrite(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
-    lookup_field = 'user_id_tg'
+class UserWriteDetail(APIView):
+    def get(self, request, user_id_tg):
+        queryset = User.objects.get(user_id_tg=user_id_tg)
+        user = UserWrite(queryset)
+        return Response(user.data, status=status.HTTP_200_OK)
