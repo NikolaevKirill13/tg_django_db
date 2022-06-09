@@ -18,7 +18,7 @@ class User(AbstractUser):
 
     user_id_tg = models.IntegerField(verbose_name='Id пользователя в telegram', unique=True, null=True, blank=True)
     birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
-    warn = models.IntegerField(verbose_name='', default=0)
+    warn = models.IntegerField(verbose_name='', default=0, null=True, blank=True)
 
     class Meta:
         ordering = ['username']

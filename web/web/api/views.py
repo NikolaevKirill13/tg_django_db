@@ -1,7 +1,5 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework import generics
 from core.models import Faq, Block, User
 from . import serializers
@@ -16,7 +14,6 @@ def apiOverview(request):
         'member detail': 'api/user/user_id',
         'block list': 'api/block',
         'block detail': 'api/block/user_id',
-
     }
     return Response(api_urls)
 
