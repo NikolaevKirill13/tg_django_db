@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIViewfrom 
 from rest_framework import generics
 from core.models import Faq, Block, User
 from . import serializers
@@ -22,12 +23,9 @@ def apiOverview(request):
     }
     return Response(api_urls)
 
-
 class FaqList(generics.ListCreateAPIView):
     queryset = Faq.objects.all()
     serializer_class = serializers.FaqSerializer
-
-
 class FaqDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Faq.objects.all()
     serializer_class = serializers.FaqSerializer
