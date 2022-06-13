@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import UserManager, AbstractUser
+from django.shortcuts import get_object_or_404
 import datetime
 
 class ObjectManager(models.Manager):
@@ -45,7 +46,7 @@ class Faq(models.Model):
 
 class Block(models.Model):
     """
-    Модель блокировки юзверя
+    Модель блокировки юзверя. В блок можно отправить только существующего юзверя
     Переопределенный save() при использовании добавляет Member'у одно нарушение и высчитывает время
     снятия бана. Если поле permanent модели = True, бан выдается до 9999-го года =Р
     В противном случае высчитывается время в зависимости от количества нарушений пользователя
@@ -69,7 +70,7 @@ class Block(models.Model):
         return self.user_id
 
     def save(self, *args, **kwargs):
-        user = User.objects.get(user_id_tg=self.user)
+        user = get_object_or_404(User, user_id_tg=self.user)
         user.warn += 1
         user.save()
         self.warn = user.warn
