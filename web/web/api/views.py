@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
-from core.models import Faq, Block, User
+from core.models import Faq, Block, User, Poll
 from . import serializers
 from rest_framework.views import APIView
 from api.serializers import UserWrite, BlockWrite
@@ -74,3 +74,15 @@ class UserWriteDetail(APIView):
         queryset = User.objects.get(user_id_tg=user_id_tg)
         user = UserWrite(queryset)
         return Response(user.data, status=status.HTTP_200_OK)
+
+
+class PollWriteList(generics.ListCreateAPIView):
+    queryset = Poll.objects.all()
+    serializer_class = serializers.PollWrite
+
+
+class PollDetailList(APIView):
+    def get(self, request, keyboard_id):
+        queryset = Poll.objects.filter(keyboard_id=keyboard_id)
+        serializer_class = serializers.PollWrite(queryset, many=True)
+        return Response(serializer_class.data, status=status.HTTP_200_OK)
