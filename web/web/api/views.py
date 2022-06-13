@@ -22,6 +22,11 @@ def apiOverview(request):
         'member detail': 'api/user/user_id - просмотр и редактирование юзера',
         'block list': 'api/block - просмотр списка заблокированных юзеров',
         'block detail': 'api/block/user_id - блокирование юзеров, обязательное поле: user',
+        'poll': 'api/poll - методом get получаем все голосования в системе возвращает id голосовалки,'
+                'id юзера проголосовавшего и каким по счету он проголосовал '
+                'методом post надо отправлять keyboar_id: <int>, user_id: <int>, в ответ'
+                'придет тоже самое плюс "total_voted": "<int>" содержащие сколько всего юзеров голосовало'
+
     }
     return Response(api_urls)
 
