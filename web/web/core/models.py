@@ -67,7 +67,7 @@ class Block(models.Model):
         verbose_name_plural = 'Блокировки'
 
     def __str__(self):
-        return self.user_id
+        return self.user
 
     def save(self, *args, **kwargs):
         user = get_object_or_404(User, user_id_tg=self.user)
