@@ -19,6 +19,8 @@ def apiOverview(request):
         'member detail': 'api/user/user_id - просмотр и редактирование юзера',
         'block list': 'api/block - просмотр списка заблокированных юзеров',
         'block detail': 'api/block/user_id - блокирование юзеров, обязательное поле: user',
+        'poll': 'api/poll - просмотр и сохранение голосовалок, для добавления методом post отправить "keyboard_id:<int>, "user_id: <int>',
+        'poll detail': 'api/poll/<keyboard_id> - просмотр конкретной голосовалки'
     }
     return Response(api_urls)
 
