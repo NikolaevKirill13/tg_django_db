@@ -1,8 +1,7 @@
-import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import UserManager, AbstractUser
-
+import datetime
 
 class ObjectManager(models.Manager):
     def get_queryset(self):
@@ -63,12 +62,11 @@ class Block(models.Model):
     warn = models.IntegerField(verbose_name='Нарушение', default=1, null=True, blank=True)
 
     class Meta:
-        ordering = ['-start_time']
         verbose_name = 'Блокировка'
         verbose_name_plural = 'Блокировки'
 
     def __str__(self):
-        return self.user
+        return self.user_id
 
     def save(self, *args, **kwargs):
         user = User.objects.get(user_id_tg=self.user)

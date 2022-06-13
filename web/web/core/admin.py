@@ -12,7 +12,7 @@ class UserAdmin(admin.ModelAdmin):
 class BlockingInLine(admin.StackedInline):
     model = Block
     extra = 1
-    exclude = ('stop_time', )
+    exclude = ('warn', )
 
 
 @admin.register(Faq)
