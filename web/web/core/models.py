@@ -10,7 +10,6 @@ class ObjectManager(models.Manager):
 
 
 class User(AbstractUser):
-
     """Модель пользователя"""
 
     objects = UserManager()
@@ -29,7 +28,6 @@ class User(AbstractUser):
 
 
 class Faq(models.Model):
-
     """ Модель справки."""
 
     objects = ObjectManager()
@@ -57,7 +55,8 @@ class Block(models.Model):
     objects = ObjectManager()
 
     user = models.CharField(verbose_name='Мембер', max_length=128)
-    start_time = models.DateTimeField(verbose_name='Время начала', default=timezone.now, null=True, blank=True)  # время понадобится в
+    start_time = models.DateTimeField(verbose_name='Время начала', default=timezone.now, null=True,
+                                      blank=True)  # время понадобится в
     # будущем развитии
     stop_time = models.DateTimeField(verbose_name='Время окончания', null=True, blank=True)
     permanent = models.BooleanField(verbose_name='Бан перманентно', default=False, null=True, blank=True)
@@ -82,3 +81,34 @@ class Block(models.Model):
             block_time = user.warn * 10 + (user.warn - 1) * 10
             self.stop_time = timezone.now() + timezone.timedelta(minutes=block_time)
         super(Block, self).save(*args, **kwargs)
+
+
+class Poll(models.Model):
+
+    """Модель голосования юзверей"""
+
+    objects = ObjectManager()
+
+    keyboard_id = models.IntegerField(verbose_name='Голосование', null=False, blank=False)
+    user_id = models.IntegerField(verbose_name='Кто голосовал', null=False, blank=False)
+    total_voted = models.IntegerField(verbose_name='Общее количество голосов', null=True, blank=True, default=1)
+
+    class Meta:
+        ordering = ['-keyboard_id']  # сортируем в обратном порядке, что бы последние были сверху в админке
+        unique_together = ['keyboard_id', 'user_id']  # задаем уникальность что бы не было повторных голосов
+        verbose_name = 'Голосование'  # удобочитаемое имя в единственном числе
+        verbose_name_plural = 'Голосования'  # удобочитаемое имя во множественном числе
+
+    def __str__(self):
+        return str(self.keyboard_id)  # возвращаем удобочитаемое имя объекта
+
+    def save(self, *args, **kwargs):
+        polls = Poll.objects.filter(keyboard_id=self.keyboard_id)  # получаем все голосовалки по ид
+        amount = polls.count()  # получаем сумму всех голосов
+        for poll in polls:  # запускаем цикл по голосовалкам
+            if poll.user_id == self.user_id:  # проверяем голосовал ли юзер
+                self.total_voted = amount  # если голосовал сумму не меняем
+                return  # просто возвращаем
+            else:  # если не голосовал
+                self.total_voted = amount + 1  # добавляем его голос
+        super(Poll, self).save(*args, **kwargs)  # сохраняем в БД и возвращаем
