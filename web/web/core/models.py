@@ -14,7 +14,7 @@ class User(AbstractUser):
 
     objects = UserManager()
 
-    user_id_tg = models.IntegerField(verbose_name='Id пользователя в telegram', unique=True, null=True, blank=True)
+    user_id_tg = models.IntegerField(verbose_name='Id пользователя в telegram', unique=True, primary_key=True)
     birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
     warn = models.IntegerField(verbose_name='', default=0, null=True, blank=True)
 
@@ -25,6 +25,9 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def chek_hash(self):
+        pass
 
 
 class Faq(models.Model):
