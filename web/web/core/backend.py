@@ -7,7 +7,6 @@ from django.core.exceptions import ObjectDoesNotExist
 class TgAuthUserBackend(object):
 
     """Аутентификация через Телеграмм"""
-
     def autentificate(self, request):
         request_data = request.GET
         if chek_authentication(request_data):

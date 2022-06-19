@@ -38,8 +38,10 @@ def chek_authentication(request_data):
     _hash = hmac.new(secret_key, msg=data_check_string.encode(), digestmod=hashlib.sha256).hexdigest()
 
     if _hash == received_hash:
+        print('верно')
         return True
     else:
+        print('не верно')
         return False
 
 
