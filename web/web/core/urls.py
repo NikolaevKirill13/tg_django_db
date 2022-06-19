@@ -1,8 +1,9 @@
-from django.urls import path
-from .views import callback, redirect, index
+from django.urls import path, re_path
+from .views import login, auth
 
 
 urlpatterns = [
-    path('tg_login', callback),
-    path('', index),
+    path('', login),
+
+    path('auth/', auth)
 ]

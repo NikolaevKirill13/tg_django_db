@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-^ne#gs=cjv-ku+%2-%-1vvon)u4zx)zio#4s6o78@2se6i=-vy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['c761-94-25-229-230.eu.ngrok.io', '127.0.0.1']
+ALLOWED_HOSTS = ['a48f-188-162-65-141.eu.ngrok.io', '127.0.0.1']
 
 
 # Application definition
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'core',
     'api',
     'rest_framework',
-    'django_telegram_login',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -128,8 +128,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
 
-TELEGRAM_BOT_NAME = 'Login_Site_Bot'
+TELEGRAM_BOT_NAME = 'St_login_bot'
 
-TELEGRAM_BOT_TOKEN = '5484809390:AAF8P5xNB8YuD6VGXBSmrZObMfinYb9qJRs'
+TELEGRAM_BOT_TOKEN = '5549731465:AAHz56lrnHLHa2puFTyn8e6s80_Nqy3tLFc'
 
-TELEGRAM_LOGIN_REDIRECT_URL = 'https://c761-94-25-229-230.eu.ngrok.io/login'
+TELEGRAM_LOGIN_REDIRECT_URL = '1afd-188-162-65-141.eu.ngrok.io/profile'
+
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+
+# https://a48f-188-162-65-141.eu.ngrok.io/login/auth/?id=1183958517&first_name=%D0%9A%D0%B8%D1%80%D0%B8%D0%BB%D0%BB&username=sstormss&auth_date=1655572809&hash=8585357a01bf7a4b34e83644a2bd1890b971b78c09cd3537a39f4017b0e10450
+# запрос на логин от телеги

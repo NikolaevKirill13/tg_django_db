@@ -14,11 +14,15 @@ class User(AbstractUser):
 
     objects = UserManager()
 
-    user_id_tg = models.IntegerField(verbose_name='Id пользователя в telegram', unique=True, primary_key=True)
+    user_id_tg = models.IntegerField(verbose_name='Id пользователя в telegram', unique=True, null=True, blank=True)
     birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
-    warn = models.IntegerField(verbose_name='', default=0, null=True, blank=True)
+    warn = models.IntegerField(verbose_name='количество нарушений', default=0, null=True, blank=True)
+    hash_tg = models.CharField(verbose_name='хеш телеграмм', max_length=255, null=True, blank=True)
+
+    USERNAME_FIELD = 'username'
 
     class Meta:
+        swappable = 'AUTH_USER_MODEL'
         ordering = ['username']
         verbose_name = 'Мембер'
         verbose_name_plural = 'Мемберы'
