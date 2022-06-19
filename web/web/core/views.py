@@ -11,10 +11,20 @@ bot_name = settings.TELEGRAM_BOT_NAME
 bot_token = settings.TELEGRAM_BOT_TOKEN
 redirect_url = settings.TELEGRAM_LOGIN_REDIRECT_URL
 
+class IndexView(View):
+
+    @staticmethod
+    def get(request):
+        context = {
+            'hello': 'Здрасте=)'
+        }
+        template = 'index.html'
+        return render(request, template, context)
+
 
 def login(request):
     """ Страница для размещения всх вариантов входа в систему"""
-    return render(request, 'login.html', context={})
+    return render(request, 'registration/login.html', context={})
 
 
 class UserDetail(DetailView):

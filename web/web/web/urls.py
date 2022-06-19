@@ -19,7 +19,8 @@ from core.views import UserDetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('api/', include('api.urls')),
-    path('login/', include('core.urls')),
+    path('', include('core.urls')),
     path('profile/<str:username>/', UserDetail.as_view(), name='profile')
 ]

@@ -58,7 +58,7 @@ ROOT_URLCONF = 'web.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates', 'core/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,6 +135,9 @@ TELEGRAM_BOT_TOKEN = '5549731465:AAHz56lrnHLHa2puFTyn8e6s80_Nqy3tLFc'
 TELEGRAM_LOGIN_REDIRECT_URL = '1afd-188-162-65-141.eu.ngrok.io/profile'
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # https://a48f-188-162-65-141.eu.ngrok.io/login/auth/?id=1183958517&first_name=%D0%9A%D0%B8%D1%80%D0%B8%D0%BB%D0%BB&username=sstormss&auth_date=1655572809&hash=8585357a01bf7a4b34e83644a2bd1890b971b78c09cd3537a39f4017b0e10450
 # запрос на логин от телеги
