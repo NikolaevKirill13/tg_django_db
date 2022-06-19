@@ -3,7 +3,6 @@ Telegram login authentication functionality.
 """
 import hashlib
 import hmac
-import time
 from django.contrib.auth import settings
 
 
@@ -21,7 +20,6 @@ def chek_authentication(request_data):
     request_data = request_data.copy()
     bot_token = settings.TELEGRAM_BOT_TOKEN
     received_hash = request_data['hash']
-    # auth_date = request_data['auth_date']
 
     request_data.pop('hash', None)
     request_data_alphabetical_order = sorted(request_data.items(), key=lambda x: x[0])
@@ -38,10 +36,8 @@ def chek_authentication(request_data):
     _hash = hmac.new(secret_key, msg=data_check_string.encode(), digestmod=hashlib.sha256).hexdigest()
 
     if _hash == received_hash:
-        print('верно')
         return True
     else:
-        print('не верно')
         return False
 
 

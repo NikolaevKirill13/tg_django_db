@@ -4,6 +4,7 @@ from django.contrib.auth.models import UserManager, AbstractUser
 from django.shortcuts import get_object_or_404
 import datetime
 
+
 class ObjectManager(models.Manager):
     def get_queryset(self):
         return super(ObjectManager, self).get_queryset().all()

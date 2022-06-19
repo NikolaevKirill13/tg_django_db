@@ -13,29 +13,29 @@ redirect_url = settings.TELEGRAM_LOGIN_REDIRECT_URL
 
 
 def login(request):
-    print('выходим на редирект')
+    """ Страница для размещения всх вариантов входа в систему"""
     return render(request, 'login.html', context={})
 
 
 class UserDetail(DetailView):
+    """Страница профиля пользователя"""
     template_name = 'profile.html'
     slug_field = 'username'
     slug_url_kwarg = 'username'
     model = User
 
-    def get_context_data(self, **kwargs):
-        context = super(UserDetail, self).get_context_data(**kwargs)
-        return context
 
 
 def auth(request):
+    """
+    Функция проверки запроса, отправки данных на авторизацию и перенаправления в профиль
+    пользователя
+    """
     if not request.GET.get('hash'):
-        print('проблема с данными')
+        print('проблема с данными')  # нужно исправить на что-то удобоваримое для юзверей
     else:
-        print('Идем на аутентификацию')
         user_id_tg = request.GET.get('id')
         print(user_id_tg)
         user = TgAuthUserBackend.autentificate(request, request)
         return redirect(f'/profile/{user.username}')
-        #return render(request, 'profile.html', context={'user': request.user, 'user_auth': user})
 
