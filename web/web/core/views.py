@@ -2,14 +2,15 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
-from django.views.generic import TemplateView
 from .models import User
 from .backend import TgAuthUserBackend
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 bot_name = settings.TELEGRAM_BOT_NAME
 bot_token = settings.TELEGRAM_BOT_TOKEN
 redirect_url = settings.TELEGRAM_LOGIN_REDIRECT_URL
+
 
 class IndexView(View):
 
@@ -27,7 +28,7 @@ def login(request):
     return render(request, 'registration/login.html', context={})
 
 
-class UserDetail(DetailView):
+class UserDetail(LoginRequiredMixin, DetailView):
     """Страница профиля пользователя"""
     template_name = 'profile.html'
     slug_field = 'username'

@@ -139,5 +139,7 @@ AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # https://a48f-188-162-65-141.eu.ngrok.io/login/auth/?id=1183958517&first_name=%D0%9A%D0%B8%D1%80%D0%B8%D0%BB%D0%BB&username=sstormss&auth_date=1655572809&hash=8585357a01bf7a4b34e83644a2bd1890b971b78c09cd3537a39f4017b0e10450
 # запрос на логин от телеги
