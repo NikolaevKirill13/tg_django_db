@@ -4,7 +4,9 @@ from rest_framework.response import Response
 
 
 def post_user():
-    """добавление юзверя"""
+    """
+    Запрос POST на добавление юзверя в БД.
+    """
     url = 'http://127.0.0.1:8000/api/user'
     data = {'username': 'qwe', 'first_name': '', 'last_name': '', 'user_id_tg': '1313', 'warn': '0'}
     send = requests.post(url=url, json=data)
@@ -20,7 +22,11 @@ def post_faq():
 
 
 def post_poll():
-    """добавление голосования"""
+    """
+    Запрос POST на добавление голосования. Отправляем ид клавиатуры и ид кто проголосовал.
+    В ответ придет ид голосования, кто проголосовал и общее количество голосовавших. Повторы не будут учитываться
+    Запрос GET вернет все созданные голосования, запрос GET api/poll/id голосования вернет само голосование
+    """
     url = 'http://127.0.0.1:8000/api/poll'
     data = {'keyboard_id': '123', 'user_id': '112233'}
     send = requests.post(url=url, json=data)
@@ -28,6 +34,10 @@ def post_poll():
 
 
 def post_block():
+    """
+    Запрос на добавление юзверя в мут. Нужно только для записи в БД, общей статистики. Добавляет только существующего
+    юзверя. Если в ответ на добавление приходит "detail": "Страница не найдена" - то такого юзверя в базе нет
+    """
     url = 'http://127.0.0.1:8000/api/block'
     data = {'user': '300', 'permanent': False}
     send = requests.post(url=url, json=data)
@@ -37,5 +47,5 @@ def post_block():
 
 #post_user()
 #post_faq()
-#post_poll()
-post_block()
+post_poll()
+#post_block()

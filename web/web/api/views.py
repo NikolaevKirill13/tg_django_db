@@ -5,7 +5,7 @@ from rest_framework import generics
 from core.models import Faq, Block, User, Poll
 from . import serializers
 from rest_framework.views import APIView
-from api.serializers import UserWrite, BlockWrite, LoginSerializer
+from api.serializers import UserWrite, BlockWrite, LoginSerializer, PollWrite
 from rest_framework import status
 
 from .renderers import UserJSONRenderer
@@ -80,9 +80,18 @@ class UserWriteDetail(APIView):
         return Response(user.data, status=status.HTTP_200_OK)
 
 
-class PollWriteList(generics.ListCreateAPIView):
-    queryset = Poll.objects.all()
-    serializer_class = serializers.PollWrite
+class PollWriteList(APIView):
+    def get(self, request):
+        queryset = Poll.objects.all()
+        serializer_for_queryset = PollWrite(queryset, many=True)
+        return Response(serializer_for_queryset.data)
+
+    def post(self, request):
+        serializer = PollWrite(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PollDetailList(APIView):

@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 import jwt
 
 
-
 class ObjectManager(models.Manager):
     def get_queryset(self):
         return super(ObjectManager, self).get_queryset().all()
