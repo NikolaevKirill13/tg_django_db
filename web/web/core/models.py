@@ -1,8 +1,11 @@
 from django.db import models
+from django.contrib.auth import settings
 from django.utils import timezone
 from django.contrib.auth.models import UserManager, AbstractUser
 from django.shortcuts import get_object_or_404
-import datetime
+from datetime import datetime, timedelta
+import jwt
+
 
 
 class ObjectManager(models.Manager):
@@ -31,8 +34,17 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-    def chek_hash(self):
-        pass
+    @property
+    def token(self):
+        return self._generate_jwt_token()
+
+    def _generate_jwt_token(self):
+        dt = datetime.now() + timedelta(days=30)
+        token = jwt.encode({
+            'id': self.pk,
+            'exp': int(dt.strftime('%s'))
+        }, settings.SECRET_KEY, algorithm='HS256')
+        return token.decode('utf-8')
 
 
 class Faq(models.Model):

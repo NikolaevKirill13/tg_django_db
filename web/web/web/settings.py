@@ -26,22 +26,27 @@ SECRET_KEY = 'django-insecure-^ne#gs=cjv-ku+%2-%-1vvon)u4zx)zio#4s6o78@2se6i=-vy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['a48f-188-162-65-141.eu.ngrok.io', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+LOCAL_APPS = [
     'core',
     'api',
     'rest_framework',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,6 +140,8 @@ TELEGRAM_BOT_TOKEN = '5549731465:AAHz56lrnHLHa2puFTyn8e6s80_Nqy3tLFc'
 TELEGRAM_LOGIN_REDIRECT_URL = '1afd-188-162-65-141.eu.ngrok.io/profile'
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+
+#core.backend.TgAuthUserBackend
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
