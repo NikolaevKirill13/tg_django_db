@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from rest_framework import serializers
 from core.models import Faq, User, Block, Poll
 
@@ -51,3 +52,31 @@ class PollWrite(serializers.Serializer):
 
     def create(self, validated_data):
         return Poll.objects.create(**validated_data)
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=255, read_only=True)
+    password = serializers.CharField(max_length=128, write_only=True)
+    token = serializers.CharField(max_length=255, read_only=True)
+
+    def validate(self, data):
+        username = data.get('username', None)
+        password = data.get('password', None)
+        if username is None:
+            raise serializers.ValidationError(
+                'Поле обязательно'
+            )
+        if password is None:
+            raise serializers.ValidationError(
+                'Поле обязательно'
+            )
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise serializers.ValidationError(
+                'User is None'
+            )
+        return {
+            'username': user.username,
+            'token': user.token
+        }
+

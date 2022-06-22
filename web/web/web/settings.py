@@ -141,6 +141,12 @@ TELEGRAM_LOGIN_REDIRECT_URL = '1afd-188-162-65-141.eu.ngrok.io/profile'
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'apps.core.backends.JWTAuthentication',
+    ),
+}
+
 #core.backend.TgAuthUserBackend
 
 LOGIN_REDIRECT_URL = '/'

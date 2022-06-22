@@ -70,4 +70,3 @@ def auth(request):
         # user_id_tg = request.GET.get('id')
         user = TgAuthUserBackend.autentificate(request, request)
         return redirect(f'/profile/{user.username}')
-

@@ -75,7 +75,7 @@ class Block(models.Model):
     objects = ObjectManager()
 
     user = models.CharField(verbose_name='Мембер', max_length=128)
-    start_time = models.DateTimeField(verbose_name='Время начала', default=timezone.now, null=True,
+    start_time = models.DateTimeField(verbose_name='Время начала', default=datetime.now, null=True,
                                       blank=True)  # время понадобится в
     # будущем развитии
     stop_time = models.DateTimeField(verbose_name='Время окончания', null=True, blank=True)
@@ -95,7 +95,7 @@ class Block(models.Model):
         user.save()
         self.warn = user.warn
         if self.permanent:
-            self.stop_time = datetime.datetime(9999, 12, 1, 12, 00, 00)
+            self.stop_time = datetime(9999, 12, 1, 12, 00, 00)
         else:
             block_time = user.warn * 10 + (user.warn - 1) * 10
             self.stop_time = timezone.now() + timezone.timedelta(minutes=block_time)

@@ -1,12 +1,14 @@
 from rest_framework.decorators import api_view
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import generics
 from core.models import Faq, Block, User, Poll
 from . import serializers
 from rest_framework.views import APIView
-from api.serializers import UserWrite, BlockWrite
+from api.serializers import UserWrite, BlockWrite, LoginSerializer
 from rest_framework import status
 
+from .renderers import UserJSONRenderer
 
 
 @api_view(['GET'])
@@ -88,3 +90,15 @@ class PollDetailList(APIView):
         queryset = Poll.objects.filter(keyboard_id=keyboard_id)
         serializer_class = serializers.PollWrite(queryset, many=True)
         return Response(serializer_class.data, status=status.HTTP_200_OK)
+
+
+class LoginAPIView(APIView):
+    permission_classes = (AllowAny,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        user = request.data.get('user', {})
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status.HTTP_200_OK)
