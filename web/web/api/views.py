@@ -1,6 +1,7 @@
 import jwt
 from django.conf import settings
 from django.contrib.auth import user_logged_in
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -129,7 +130,10 @@ def authenticate_bot(request):
             try:
                 payload = jwt_payload_handler(user)
                 token = jwt.encode(payload, settings.SECRET_KEY)
-                user_details = {'token': token}
+                user_details = {'name': "%s %s" % (
+                    user.first_name, user.last_name), 'token': token}
+                user_logged_in.send(sender=user.__class__,
+                                    request=request, user=user)
                 return Response(user_details, status=status.HTTP_200_OK)
 
             except Exception as e:
@@ -141,3 +145,4 @@ def authenticate_bot(request):
     except KeyError:
         res = {'error': 'please provide a email and a password'}
         return Response(res)
+
