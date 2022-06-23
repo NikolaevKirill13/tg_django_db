@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -139,13 +140,24 @@ TELEGRAM_BOT_TOKEN = ''
 
 TELEGRAM_LOGIN_REDIRECT_URL = ''
 
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+#AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
-#REST_FRAMEWORK = {
-#    'DEFAULT_AUTHENTICATION_CLASSES': (
-#        'core.backends.JWTAuthentication',
-#    ),
-#}
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+  ),
+}
+
+JWT_AUTH = {
+
+    'JWT_VERIFY': True,
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+
+}
+
+APPEND_SLASH = False
 
 #core.backend.TgAuthUserBackend
 

@@ -1,7 +1,12 @@
-from rest_framework.decorators import api_view
+import jwt
+from django.conf import settings
+from django.contrib.auth import user_logged_in
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework_jwt.serializers import jwt_payload_handler
+
 from core.models import Faq, Block, User, Poll
 from . import serializers
 from rest_framework.views import APIView
@@ -101,13 +106,38 @@ class PollDetailList(APIView):
         return Response(serializer_class.data, status=status.HTTP_200_OK)
 
 
-class LoginAPIView(APIView):
-    permission_classes = (AllowAny,)
-    renderer_classes = (UserJSONRenderer,)
-    serializer_class = LoginSerializer
+#class LoginAPIView(APIView):
+#    permission_classes = (AllowAny,)
+#    renderer_classes = (UserJSONRenderer,)
+#    serializer_class = LoginSerializer
+#
+#    def post(self, request):
+#        user = request.data.get('user', {})
+#        serializer = self.serializer_class(data=user)
+#        serializer.is_valid(raise_exception=True)
+#        return Response(serializer.data, status.HTTP_200_OK)
 
-    def post(self, request):
-        user = request.data.get('user', {})
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def authenticate_bot(request):
+    try:
+        username = request.data['username']
+        password = request.data['password']
+        user = User.objects.filter(username=username, password=password)
+        if user:
+            try:
+                payload = jwt_payload_handler(user)
+                token = jwt.encode(payload, settings.SECRET_KEY)
+                user_details = {'token': token}
+                return Response(user_details, status=status.HTTP_200_OK)
+
+            except Exception as e:
+                raise e
+        else:
+            res = {
+                'error': 'can not authenticate with the given credentials or the account has been deactivated'}
+            return Response(res, status=status.HTTP_403_FORBIDDEN)
+    except KeyError:
+        res = {'error': 'please provide a email and a password'}
+        return Response(res)

@@ -1,13 +1,13 @@
 from django.urls import path, re_path
 from .views import apiOverview, FaqList, FaqDetail, BlockWriteDetail, UserWriteList, UserWriteDetail,\
-    BlockWriteList, PollWriteList, PollDetailList, LoginAPIView
+    BlockWriteList, PollWriteList, PollDetailList, authenticate_bot
 
 
 
 
 urlpatterns = [
     path('', apiOverview),
-    path('login/', LoginAPIView.as_view()),
+    path('login/', authenticate_bot),
     path('faq', FaqList.as_view()),
     path('faq/<str:title>', FaqDetail.as_view()),
     path('block', BlockWriteList.as_view()),
