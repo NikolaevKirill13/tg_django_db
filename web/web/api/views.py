@@ -11,7 +11,7 @@ from rest_framework_jwt.serializers import jwt_payload_handler
 from core.models import Faq, Block, User, Poll
 from . import serializers
 from rest_framework.views import APIView
-from api.serializers import UserWrite, BlockWrite, LoginSerializer, PollWrite
+from api.serializers import UserWrite, BlockWrite, LoginSerializer, PollWrite, FaqSerializer
 from rest_framework import status
 
 from .renderers import UserJSONRenderer
@@ -33,10 +33,10 @@ def apiOverview(request):
     return Response(api_urls)
 
 
-class FaqList(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = Faq.objects.all()
-    serializer_class = serializers.FaqSerializer
+#class FaqList(generics.ListCreateAPIView):
+#    permission_classes = (IsAuthenticated,)
+#    queryset = Faq.objects.all()
+#    serializer_class = serializers.FaqSerializer
 
 
 class FaqDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -108,16 +108,20 @@ class PollDetailList(APIView):
         return Response(serializer_class.data, status=status.HTTP_200_OK)
 
 
-#class LoginAPIView(APIView):
-#    permission_classes = (AllowAny,)
-#    renderer_classes = (UserJSONRenderer,)
-#    serializer_class = LoginSerializer
-#
-#    def post(self, request):
-#        user = request.data.get('user', {})
-#        serializer = self.serializer_class(data=user)
-#        serializer.is_valid(raise_exception=True)
-#        return Response(serializer.data, status.HTTP_200_OK)
+class FaqList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        queryset = Faq.objects.all()
+        serializer_class = FaqSerializer(queryset, many=True)
+        return Response(serializer_class.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = FaqSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])

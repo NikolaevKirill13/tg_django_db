@@ -72,7 +72,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed(msg)
         try:
             user = User.objects.get(pk=payload['id'])
-        except User.DoesNotExist:
+        except user.DoesNotExist:
             msg = 'Пользователь не найден'
             raise exceptions.AuthenticationFailed(msg)
         return (user, token)
