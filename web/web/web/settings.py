@@ -82,12 +82,12 @@ WSGI_APPLICATION = 'web.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'test',
-        'USER': 'test',
-        'PASSWORD': 'test',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': environ.get('SQL_ENGINE'),
+        'NAME': environ.get('SQL_DATABASE'),
+        'USER': environ.get('SQL_USER'),
+        'PASSWORD': environ.get('SQL_PASSWORD'),
+        'HOST': environ.get('SQL_HOST'),
+        'PORT': environ.get('SQL_PORT'),
     }
 }
 
@@ -118,7 +118,7 @@ TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
