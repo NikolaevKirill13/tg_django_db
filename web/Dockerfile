@@ -16,5 +16,6 @@ RUN pip install --upgrade pip
 COPY web/requirements.txt .
 RUN pip install -r requirements.txt
 
+
 # copy project
 COPY . .
