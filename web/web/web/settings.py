@@ -82,12 +82,12 @@ WSGI_APPLICATION = 'web.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': environ.get('SQL_ENGINE'),
-        'NAME': environ.get('SQL_DATABASE'),
-        'USER': environ.get('SQL_USER'),
-        'PASSWORD': environ.get('SQL_PASSWORD'),
-        'HOST': environ.get('SQL_HOST'),
-        'PORT': environ.get('SQL_PORT'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'test',
+        'USER': 'test',
+        'PASSWORD': 'test',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
