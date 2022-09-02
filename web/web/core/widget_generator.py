@@ -1,8 +1,8 @@
 """
-Widgets generator interface.
+Widgets generator
 """
 
-WIDGET_SCRIPT_START = '<script async src="https://telegram.org/js/telegram-widget.js?3" '
+WIDGET_SCRIPT_START = '<script async src="https://telegram.org/js/telegram-widget.js?19" '
 WIDGET_SCRIPT_END = '></script>'
 WIDGET_ONAUTH = 'data-onauth="onTelegramAuth(user)" '
 ACCESS_WRITE_DEFAULT = True
@@ -50,4 +50,6 @@ def create_redirect_login_widget(
         + WIDGET_SCRIPT_END
 
 
+"""
 <script async src="https://telegram.org/js/telegram-widget.js?19" data-telegram-login="samplebot" data-size="large" data-auth-url="127.0.0.1" data-request-access="write"></script>
+"""
