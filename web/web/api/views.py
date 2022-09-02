@@ -1,20 +1,18 @@
 import jwt
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework_jwt.serializers import jwt_payload_handler
-
-from core.models import Faq, Block, User, Poll
-from . import serializers
 from rest_framework.views import APIView
-from api.serializers import UserWrite, BlockWrite, LoginSerializer, PollWrite, FaqSerializer
 from rest_framework import status
 
-from .renderers import UserJSONRenderer
+from . import serializers
+from core.models import Faq, Block, User, Poll
+from api.serializers import UserWrite, BlockWrite, PollWrite, FaqSerializer
+
+
 
 
 @api_view(['GET'])
@@ -43,6 +41,22 @@ class FaqDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Faq.objects.all()
     serializer_class = serializers.FaqSerializer
     lookup_field = 'title'
+
+
+class FaqList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        queryset = Faq.objects.all()
+        serializer_class = FaqSerializer(queryset, many=True)
+        return Response(serializer_class.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = FaqSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class BlockWriteList(APIView):
@@ -107,21 +121,6 @@ class PollDetailList(APIView):
         serializer_class = serializers.PollWrite(queryset, many=True)
         return Response(serializer_class.data, status=status.HTTP_200_OK)
 
-
-class FaqList(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        queryset = Faq.objects.all()
-        serializer_class = FaqSerializer(queryset, many=True)
-        return Response(serializer_class.data, status=status.HTTP_200_OK)
-
-    def post(self, request):
-        serializer = FaqSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])

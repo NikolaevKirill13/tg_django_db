@@ -89,6 +89,7 @@ class Block(models.Model):
         return self.user
 
     def save(self, *args, **kwargs):
+        """ Переопределяем сохранение для высчитывания времени бана"""
         user = get_object_or_404(User, user_id_tg=self.user)
         user.warn += 1
         user.save()

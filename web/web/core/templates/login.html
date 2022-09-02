@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-Test login telegram<br>
-<script async src="https://telegram.org/js/telegram-widget.js?19" data-telegram-login="St_login_bot" data-size="medium" data-userpic="false" data-auth-url="https://a48f-188-162-65-141.eu.ngrok.io/login/auth/" data-request-access="write"></script></body>
-</html>
+
+test telegram login
+
+{% autoescape off %}{{ telegram_login_widget }}{% endautoescape %}

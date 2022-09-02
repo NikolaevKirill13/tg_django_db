@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,12 +9,14 @@ from django.views.generic import DetailView, View
 from .backend import TgAuthUserBackend
 from .models import User
 from .forms import ChangePasswordForm
+from .widget_generator import create_redirect_login_widget
 
 
-bot_name = settings.TELEGRAM_BOT_NAME
-bot_token = settings.TELEGRAM_BOT_TOKEN
-redirect_url = settings.TELEGRAM_LOGIN_REDIRECT_URL
-
+bot_name = os.environ.get('TELEGRAM_BOT_NAME')
+bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
+redirect_url = os.environ.get('TELEGRAM_LOGIN_REDIRECT_URL')
+SMALL = 'small'
+DISABLE_USER_PHOTO = False
 
 class IndexView(View):
 
@@ -28,7 +31,14 @@ class IndexView(View):
 
 def login(request):
     """ Страница для размещения всх вариантов входа в систему"""
-    return render(request, 'registration/login.html', context={})
+
+    telegram_login_widget = create_redirect_login_widget(
+        redirect_url, bot_name, size=SMALL, user_photo=DISABLE_USER_PHOTO
+    )
+
+    context = {'telegram_login_widget': telegram_login_widget}
+
+    return render(request, 'registration/login.html', context)
 
 
 class UserDetail(LoginRequiredMixin, DetailView):
