@@ -1,3 +1,4 @@
+from django.conf import settings
 """
 Widgets generator
 """
@@ -6,7 +7,11 @@ WIDGET_SCRIPT_START = '<script async src="https://telegram.org/js/telegram-widge
 WIDGET_SCRIPT_END = '></script>'
 WIDGET_ONAUTH = 'data-onauth="onTelegramAuth(user)" '
 ACCESS_WRITE_DEFAULT = True
+HOST = settings.HOST
+TELEGRAM_LOGIN_REDIRECT_URL = settings.TELEGRAM_LOGIN_REDIRECT_URL
 SMALL = 'small'
+bot_name = settings.TELEGRAM_BOT_NAME
+redirect_url = HOST + TELEGRAM_LOGIN_REDIRECT_URL
 
 
 def _generate_widget_parameters(bot_name, user_photo, size, corner_radius, access_write):
@@ -24,7 +29,7 @@ def _generate_widget_parameters(bot_name, user_photo, size, corner_radius, acces
     return data_telegram_login, data_size, data_userpic, data_radius, data_request_access
 
 
-def create_redirect_login_widget(
+def tg_login_widget(
         redirect_url,
         bot_name,
         size=SMALL,

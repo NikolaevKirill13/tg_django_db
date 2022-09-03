@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^ne#gs=cjv-ku+%2-%-1vvon)u4zx)zio#4s6o78@2se6i=-vy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'fa66-94-25-228-6.eu.ngrok.io']
 # Application definition
 
 DJANGO_APPS = [
@@ -131,13 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
 
-TELEGRAM_BOT_NAME = ''
-
-TELEGRAM_BOT_TOKEN = ''
-
-TELEGRAM_LOGIN_REDIRECT_URL = ''
-
-# AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -165,3 +159,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+HOST = 'https://fa66-94-25-228-6.eu.ngrok.io'
+
+TELEGRAM_BOT_NAME = 'St_login_bot'
+
+TELEGRAM_BOT_TOKEN = '5549731465:AAHz56lrnHLHa2puFTyn8e6s80_Nqy3tLFc'
+
+TELEGRAM_LOGIN_REDIRECT_URL = '/login/auth/'
+
