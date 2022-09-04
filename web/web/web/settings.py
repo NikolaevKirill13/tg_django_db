@@ -160,7 +160,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-HOST = 'https://fa66-94-25-228-6.eu.ngrok.io'
+HOST = 'https://e492-94-25-228-6.eu.ngrok.io'
 
 TELEGRAM_BOT_NAME = 'St_login_bot'
 

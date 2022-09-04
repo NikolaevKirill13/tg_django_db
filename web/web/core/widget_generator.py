@@ -29,9 +29,9 @@ def _generate_widget_parameters(bot_name, user_photo, size, corner_radius, acces
     return data_telegram_login, data_size, data_userpic, data_radius, data_request_access
 
 
-def tg_login_widget(
-        redirect_url,
-        bot_name,
+def tg_login_widget1(
+        redirect_url = HOST + TELEGRAM_LOGIN_REDIRECT_URL,
+        bot_name = settings.TELEGRAM_BOT_NAME,
         size=SMALL,
         corner_radius=None,
         user_photo=True,
@@ -40,6 +40,7 @@ def tg_login_widget(
     """
     Create a redirect widget, that allows to handle an user data as get request parameters.
     """
+
     data_auth_url = 'data-auth-url="{}" '.format(redirect_url)
 
     data_telegram_login, data_size, data_userpic, data_radius, data_request_access = \
@@ -53,6 +54,27 @@ def tg_login_widget(
         + data_auth_url \
         + data_request_access \
         + WIDGET_SCRIPT_END
+
+def tg_login_widget(request):
+    WIDGET_SCRIPT_START = '<script async src="https://telegram.org/js/telegram-widget.js?19" '
+    WIDGET_SCRIPT_END = '></script>'
+    HOST = settings.HOST
+    TELEGRAM_LOGIN_REDIRECT_URL = settings.TELEGRAM_LOGIN_REDIRECT_URL
+    SIZE = 'large'
+    data_auth_url = 'data-auth-url="{}" '.format(HOST + TELEGRAM_LOGIN_REDIRECT_URL)
+    data_telegram_login = 'data-telegram-login="{}" '.format(settings.TELEGRAM_BOT_NAME)
+    data_size = 'data-size="{}" '.format(SIZE)
+    data_request_access = 'data-request-access="write"'
+    widget = WIDGET_SCRIPT_START \
+        + data_telegram_login \
+        + data_size \
+        + data_auth_url \
+        + data_request_access \
+        + WIDGET_SCRIPT_END
+    print(widget)
+
+    return widget
+
 
 
 """

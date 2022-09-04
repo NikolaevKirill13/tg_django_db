@@ -30,13 +30,8 @@ def login(request):
     """ Страница для размещения всх вариантов входа в систему"""
     bot_name = settings.TELEGRAM_BOT_NAME
     redirect_url = settings.TELEGRAM_LOGIN_REDIRECT_URL
-    widget = tg_login_widget(redirect_url,
-        bot_name,
-        size=LARGE,
-        corner_radius=None,
-        user_photo=True,
-        access_write=True)
-    return render(request, 'registration/login.html', context={'widget': widget})
+    tg_login = tg_login_widget(request)
+    return render(request, 'registration/login.html', context={'widget': tg_login})
 
 
 class UserDetail(LoginRequiredMixin, DetailView):
