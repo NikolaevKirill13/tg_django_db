@@ -1,4 +1,5 @@
 import jwt
+from django.contrib import auth
 from django.contrib.auth import login
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
@@ -12,22 +13,36 @@ class TgAuthUserBackend(object):
 
     """Аутентификация через Телеграмм"""
 
+    def autentificate(self, request):
+        request_data = request.GET  # переводим в удобоваримый вид(а надо ли?)
+        if chek_authentication(request_data):  # проводим проверку на валидность
+            user_id_tg = request.GET.get('id')  # если запрос валиден вытаскиваем id
+            user = User.objects.filter(user_id_tg=user_id_tg)
+            if user:
+                user = User.objects.get(user_id_tg=user_id_tg)
+                login(request, user)
+            else:
+                user = User.objects.create_user(  # создаем юзера
+                    username=request.GET.get('username'),
+                    password=request.GET.get('username'),
+                    user_id_tg=user_id_tg)
+                login(request, user)  # и логиним юзера(создаем сессию)
+            return user  # возвращаем юзера
+        else:
+            return None
+
+    """
     def autentificate(self, request):  # получаем в метод запрос
         request_data = request.GET  # переводим в удобоваримый вид(а надо ли?)
         if chek_authentication(request_data):  # проводим проверку на валидность
             user_id_tg = request.GET.get('id')  # если запрос валиден вытаскиваем id
             username = request.GET.get('username')  # и username  юзера в telegram
-            u = User.objects.all()
-            for i in u:
-                if i.username == username or username is None:
-                    first_name = request.GET.get('first_name')  # получаем имя юзера из телеграмм
-                    username = str(first_name) + str(user_id_tg)  # собираем вместе с id для уникальности
-            user = User.objects.filter(user_id_tg=user_id_tg)  # запрашиваем наличие юзера в БД(почему не работает с get?)
+            user = User.objects.all()
             try:  # если юзер есть
-                # user = User.objects.get(user_id_tg=user_id_tg)  # выводим его в переменную
-                login(request, user)  # логиним юзера(создаем сессию)
+                username = User.objects.first(user_id_tg=user_id_tg)  # выводим его в переменную
+                auth.login(request, username)  # логиним юзера(создаем сессию)
             except ObjectDoesNotExist:  # если юзера нет
-                user = User.objects.create_user(  # создаем юзера
+                user = User.objects.create(  # создаем юзера
                     username=username,
                     password=username,
                     user_id_tg=user_id_tg)
@@ -35,7 +50,7 @@ class TgAuthUserBackend(object):
             return user  # возвращаем юзера
         else:
             return None  # если проверка на валидность не пройдена возвращаем None
-
+"""
     def get_user(self, user_id):  #
         try:  #
             return User.objects.get(pk=user_id)  #
