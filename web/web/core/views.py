@@ -28,8 +28,6 @@ class IndexView(View):
 
 def login(request):
     """ Страница для размещения всх вариантов входа в систему"""
-    bot_name = settings.TELEGRAM_BOT_NAME
-    redirect_url = settings.TELEGRAM_LOGIN_REDIRECT_URL
     tg_login = tg_login_widget(request)
     return render(request, 'registration/login.html', context={'widget': tg_login})
 
